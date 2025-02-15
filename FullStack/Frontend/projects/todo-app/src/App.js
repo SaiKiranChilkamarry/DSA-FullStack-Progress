@@ -8,6 +8,10 @@ function App(){
     setTasks([...tasks,task]);//Adding of new task
     setTask("");//clear the input feild
   };
+  //delete task button
+  const deleteTask=(indexToDelete)=>{
+    setTasks(tasks.filter((_,index)=>index!==indexToDelete));
+  };
 
   return (
     <div className="App">
@@ -21,11 +25,13 @@ function App(){
         onChange={(e)=>setTask(e.target.value)}
         style={{padding:"10px",margin:"10px",width:"200px"}}
       />
-      <button onClick={addTask}  style={{padding:"10px",margin:"10px"}}>Add Task</button>
+      <button onClick={addTask}  style={{padding:"10px",margin:"10px",backgroundColor:"green", color:"white",fontWeight:"bolder",fontSize:"large",borderRadius:"2px",border:"None"}}>Add Task</button>
+      
       <ul>
         {tasks.map((task,index)=>(
           <li key={index}>
             {task}
+            <button onClick={() => deleteTask(index)} style={{padding:"10px",margin:"10px",backgroundColor:"red",color:"white",fontWeight:"bolder",fontSize:"large",borderRadius:"2px",border:"None"}}>Remove Task</button>
           </li>//display each task
         ))}
       </ul>
