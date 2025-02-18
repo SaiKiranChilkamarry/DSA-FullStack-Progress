@@ -1,26 +1,27 @@
-import React from "react";
+// src/components/Weather.js
+import React from 'react';
 
-const Weather = ({weather,loading,error})=>{
+const Weather = ({ weather, loading, error }) => {
   return (
-    <div>
-      
-      {/*show loading message*/}
-      {loading &&  <p>Loading Wheather data....</p>}
-      
+    <div className="mt-6">
+      {/* Show loading message */}
+      {loading && <p className="text-center text-xl">Loading weather data...</p>}
+
       {/* Show Error Message */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="text-center text-red-500">{error}</p>}
 
       {/* Show Weather Data */}
       {weather && (
-        <div>
-          <h3>{weather.name}, {weather.sys.country}</h3>
-          <p>Temperature: {weather.main.temp}°C</p>
-          <p>Weather: {weather.weather[0].description}</p>
+        <div className="text-center">
+          <h3 className="text-xl font-bold">
+            {weather.name}, {weather.sys.country}
+          </h3>
+          <p className="text-lg">Temperature: {weather.main.temp}°C</p>
+          <p className="text-lg">Weather: {weather.weather[0].description}</p>
         </div>
       )}
-
-      
     </div>
   );
 };
+
 export default Weather;

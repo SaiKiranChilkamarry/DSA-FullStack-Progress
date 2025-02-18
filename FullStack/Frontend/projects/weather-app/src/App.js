@@ -1,57 +1,48 @@
-import React, { useState , useEffect} from "react";
-import axios from "axios";
-import SearchBar from "./components/SearchBar";
-import Weather from "./components/Weather"
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import SearchBar from './components/SearchBar';
+import Weather from './components/Weather';
 
-function App(){
-
-  
-  // function to update the city state
-  const [city,setCity]=useState("");
-  const [weather, setWeather] = useState(null); // State to store weather data
+function App() {
+  const [city, setCity] = useState("");
+  const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  
 
-  const onCityChange= (newCity) => {
+  const onCityChange = (newCity) => {
     setCity(newCity);
-
-  
   };
-  const fetchWeather = async()=>{
-    setError(""); // Clear previous errors
-    setWeather(null); // Clear previous data
-    if (!city) return; //Don't fetch if there is  no city
+
+  const fetchWeather = async () => {
+    setError("");
+    setWeather(null);
+    if (!city) return;
 
     setLoading(true);
-    setError("");
-    try{
+    try {
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
       );
-    
-    setWeather(response.data);
+      setWeather(response.data);
+    } catch (error) {
+      setError("Error fetching weather data.");
+    } finally {
+      setLoading(false);
     }
-    catch(error){
-    setError("Error fetching weather data.");
-    }
-    finally{
-      setLoading(false)
-    }
+  };
 
-};
-//use useEffect to fetch wheather whenever the city changes
-useEffect(()=>{
-fetchWeather();//call the fetchweather whenever city state changes
-},[city]);
+  useEffect(() => {
+    fetchWeather();
+  }, [city]);
+
   return (
-    <div>
-      <h1>
-        Wheather App
-        <SearchBar onCityChange={onCityChange}/>
-        <Weather weather={weather} loading={loading} error={error} />
-      </h1>
+    <div className="text-center">
+      <h1 className="text-3xl font-bold my-4">Weather App</h1>
+      <SearchBar onCityChange={onCityChange} />
+      <Weather weather={weather} loading={loading} error={error} />
     </div>
   );
 }
+
 export default App;
